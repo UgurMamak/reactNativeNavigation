@@ -1,79 +1,88 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+**react-native:0.72.4**
+> npm install react-native-gradle-plugin
 
-# Getting Started
+**package.json**
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+    "dependencies": {
+	    "@react-native-community/masked-view": "^0.1.11",
+		"@react-navigation/bottom-tabs": "^6.5.8",
+		"@react-navigation/native": "^6.1.7",
+		"@react-navigation/native-stack": "^6.9.13",
+		"@react-navigation/stack": "^6.3.17",
+		"react": "18.2.0",
+		"react-native": "0.72.4",
+		"react-native-gesture-handler": "^2.9.0",
+		"react-native-gradle-plugin": "^0.71.19",
+		"react-native-reanimated": "^3.0.2",
+		"react-native-safe-area-context": "^4.5.1",
+		"react-native-screens": "^3.25.0",
+		"react-native-svg": "^13.13.0"
+	}
+	"devDependencies": {
+	"@react-native-community/eslint-config": "^3.2.0",
+	}
 
-## Step 1: Start the Metro Server
+**babel.config.js**
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+	module.exports  = {
+		presets: ['module:metro-react-native-babel-preset'],
+		plugins: ['react-native-reanimated/plugin'],
+	};
 
-To start Metro, run the following command from the _root_ of your React Native project:
+**For React Native 0.61 or greater, add the library as the first import in your index.js file:**
 
-```bash
-# using npm
-npm start
+	import  'react-native-gesture-handler';
 
-# OR using Yarn
-yarn start
-```
 
-## Step 2: Start your Application
+**android/build.gradle**
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+	classpath("com.android.tools.build:gradle:7.3.1")
 
-### For Android
+**android/settings.gradle**
 
-```bash
-# using npm
-npm run android
+	includeBuild('../node_modules/react-native-gradle-plugin')
 
-# OR using Yarn
-yarn android
-```
+**MainActivity.java**
 
-### For iOS
+	package  com.reactnativenavigation;
+	import  com.facebook.react.ReactActivity;
+	import  com.facebook.react.ReactActivityDelegate;
+	import  com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+	import  com.facebook.react.defaults.DefaultReactActivityDelegate;
+	
+	public  class  MainActivity  extends  ReactActivity {
+		/**
+		* Returns the name of the main component registered from JavaScript. This is used to schedule
 
-```bash
-# using npm
-npm run ios
+		* rendering of the component.
+		*/
 
-# OR using Yarn
-yarn ios
-```
+		@Override
+		protected  String  getMainComponentName() {
+			return  "reactNativeNavigation";
+		}
+		
+		/**
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+		* Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+		* DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React
+		* (aka React 18) with two boolean flags.
+		*/
+		
+		@Override
+		protected  ReactActivityDelegate  createReactActivityDelegate() {
+		return  new  DefaultReactActivityDelegate(
+		this,
+		getMainComponentName(),
+		// If you opted-in for the New Architecture, we enable the Fabric Renderer.
+		DefaultNewArchitectureEntryPoint.getFabricEnabled(), // fabricEnabled
+		// If you opted-in for the New Architecture, we enable Concurrent React (i.e. React 18).
+		DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
+		);
+		}
+	}
 
-## Step 3: Modifying your App
+**android/gradle/wrapper/gradle-wrapper.properties**
 
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+	distributionUrl=https\://services.gradle.org/distributions/gradle-7.5.1-all.zip
